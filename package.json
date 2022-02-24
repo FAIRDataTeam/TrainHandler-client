@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "PORT=8080 nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.2",
+    "nuxt3": "latest",
+    "postcss": "8.4.6",
+    "sass": "1.49.7",
+    "sass-loader": "12.4.0",
+    "tailwindcss": "3.0.22"
+  },
+  "dependencies": {
+    "@headlessui/vue": "1.4.3",
+    "@heroicons/vue": "1.0.5",
+    "@tailwindcss/aspect-ratio": "0.4.0",
+    "@tailwindcss/forms": "0.4.0",
+    "@tailwindcss/line-clamp": "0.3.1",
+    "@tailwindcss/typography": "0.5.1"
+  }
+}
