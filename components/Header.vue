@@ -6,6 +6,9 @@
                 <NuxtLink class="block py-2 px-3 text-teal-100 hover:text-white" to="/">Trains</NuxtLink>
             </li>
             <li>
+                <NuxtLink class="block py-2 px-3 text-teal-100 hover:text-white" to="/train-garages">Train Garages</NuxtLink>
+            </li>
+            <li>
                 <NuxtLink
                     class="block py-2 px-3 text-teal-100 hover:text-white"
                     to="/stations"

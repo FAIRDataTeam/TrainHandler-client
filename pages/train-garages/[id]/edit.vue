@@ -1,0 +1,54 @@
+<script setup>
+import { required, url } from '@vuelidate/validators'
+
+const route = useRoute()
+const router = useRouter()
+const { $api } = useNuxtApp()
+
+const form = {
+    fields: [{
+        name: 'displayName',
+        label: 'Name',
+        rules: { required },
+    }, {
+        name: 'uri',
+        label: 'URI',
+        rules: { required, url },
+    }, {
+        name: 'note',
+        label: 'Note',
+        type: 'textarea',
+        rules: {},
+    }],
+    submit: {
+        label: 'Save'
+    }
+}
+
+const { pending } = $api.lazyFetchForm(`/train-garages/${route.params.id}`, form.fields, (newFields) => {
+    form.fields = newFields
+})
+
+const state = reactive({
+    error: false
+})
+
+const submit = async (data) => {
+    try {
+        const res = await $api.put(`/train-garages/${route.params.id}`, data)
+        await router.push(`/train-garages/${res.uuid}`)
+    } catch (err) {
+        state.error = true
+    }
+}
+</script>
+<template>
+    <div class="max-w-screen-md mx-auto">
+        <div v-if="pending">Loading...</div>
+        <div v-else>
+            <h1>Edit train garage</h1>
+            <AlertError v-if="state.error" text="Unable to update the train garage." />
+            <FormRenderer :form="form" @submit="submit" />
+        </div>
+    </div>
+</template>
