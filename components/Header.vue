@@ -15,6 +15,12 @@
                 >Stations</NuxtLink>
             </li>
             <li>
+                <NuxtLink
+                    class="block py-2 px-3 text-teal-100 hover:text-white"
+                    to="/station-directories"
+                >Station Directories</NuxtLink>
+            </li>
+            <li>
                 <NuxtLink class="block py-2 px-3 text-teal-100 hover:text-white" to="/runs">Runs</NuxtLink>
             </li>
         </ul>

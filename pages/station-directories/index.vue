@@ -3,19 +3,19 @@ import { PlusIcon } from "@heroicons/vue/outline"
 
 const { $api } = useNuxtApp()
 
-const { pending, data } = $api.lazyFetch('/train-garages')
+const { pending, data } = $api.lazyFetch('/station-directories')
 
 </script>
 <template>
     <div class="max-w-screen-lg mx-auto">
         <div class="w-full flex justify-between items-center mb-5">
-            <h1>Train Garages</h1>
+            <h1>Station Directories</h1>
             <div>
                 <NuxtLink
                     class="button button-outline-default button-sm"
-                    to="/train-garages/add"
+                    to="/station-directories/add"
                 >
-                    <PlusIcon class="w-4 mr-1 inline-block" />Add train garage
+                    <PlusIcon class="w-4 mr-1 inline-block" />Add station directory
                 </NuxtLink>
             </div>
         </div>
@@ -30,7 +30,7 @@ const { pending, data } = $api.lazyFetch('/train-garages')
                 >
                     <div>
                         <NuxtLink
-                            :to="`/train-garages/${item.uuid}`"
+                            :to="`/station-directories/${item.uuid}`"
                             class="font-bold inline-block hover:underline"
                         >{{ item.displayName }}</NuxtLink>
                         <div class="text-gray-500">{{ item.uri }}</div>
