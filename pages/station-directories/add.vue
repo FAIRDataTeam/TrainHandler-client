@@ -38,9 +38,12 @@ const submit = async (data) => {
 }
 </script>
 <template>
-    <div class="max-w-screen-md mx-auto">
-        <h1>Add station directory</h1>
-        <AlertError v-if="state.error" text="Unable to add the station directory." />
-        <FormRenderer :form="form" @submit="submit" />
+    <div>
+        <StationsHeader active="station-directories" />
+        <div class="mt-6 max-w-screen-md mx-auto">
+            <h1>Add station directory</h1>
+            <AlertError v-if="state.error" text="Unable to add the station directory." />
+            <FormRenderer :form="form" @submit="submit" />
+        </div>
     </div>
 </template>

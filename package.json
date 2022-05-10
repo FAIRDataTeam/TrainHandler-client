@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "autoprefixer": "10.4.2",
-    "nuxt3": "latest",
+    "nuxt": "3.0.0-rc.3",
     "postcss": "8.4.6",
     "sass": "1.49.7",
     "sass-loader": "12.4.0",
@@ -21,6 +21,9 @@
     "@tailwindcss/line-clamp": "0.3.1",
     "@tailwindcss/typography": "0.5.1",
     "@vuelidate/core": "^2.0.0-alpha.35",
-    "@vuelidate/validators": "^2.0.0-alpha.27"
+    "@vuelidate/validators": "^2.0.0-alpha.27",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "moment-duration-format": "^2.3.2"
   }
 }

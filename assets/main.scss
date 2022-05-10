@@ -1,0 +1,80 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+h1 {
+    @apply text-xl;
+    @apply font-medium;
+    @apply text-gray-900;
+}
+
+h2 {
+    @apply text-lg;
+    @apply font-medium;
+    @apply text-gray-900;
+}
+
+.link {
+    @apply text-cyan-600;
+    @apply hover:text-cyan-500;
+    @apply cursor-pointer;
+}
+
+.button {
+    @apply inline-flex;
+    @apply justify-center;
+    @apply items-center;
+    @apply rounded-lg;
+    @apply border;
+    @apply shadow-sm;
+    @apply px-4;
+    @apply py-2;
+    @apply text-base;
+    @apply font-medium;
+    @apply focus:outline-none;
+    @apply focus:ring-2;
+    @apply focus:ring-offset-2;
+    @apply cursor-pointer;
+
+    &-sm {
+        @apply text-sm;
+    }
+
+    &-primary {
+        @apply border-transparent;
+        @apply bg-cyan-600;
+        @apply text-white;
+        @apply hover:bg-cyan-700;
+        @apply focus:ring-cyan-500;
+    }
+
+    &-danger {
+        @apply border-transparent;
+        @apply bg-red-600;
+        @apply text-white;
+        @apply hover:bg-red-700;
+        @apply focus:ring-red-500;
+    }
+
+    &-outline-default {
+        @apply border-gray-200;
+        @apply bg-white;
+        @apply text-gray-700;
+        @apply hover:bg-gray-50;
+        @apply focus:ring-cyan-500;
+    }
+
+    &-outline-danger {
+        @apply border-gray-200;
+        @apply bg-white;
+        @apply text-red-700;
+        @apply hover:bg-gray-50;
+        @apply focus:ring-red-500;
+    }
+}
+
+.detail-list {
+    div:nth-child(even) {
+        @apply bg-gray-50;
+    }
+}

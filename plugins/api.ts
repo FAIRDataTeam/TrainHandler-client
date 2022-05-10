@@ -4,6 +4,7 @@ export default defineNuxtPlugin(nuxtApp => {
     return {
         provide: {
             api: {
+                get: (url) => $fetch(`${config.API_URL}${url}`),
                 post: (url, data) => $fetch(`${config.API_URL}${url}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

@@ -38,9 +38,12 @@ const submit = async (data) => {
 }
 </script>
 <template>
-    <div class="max-w-screen-md mx-auto">
-        <h1>Add train garage</h1>
-        <AlertError v-if="state.error" text="Unable to add the train garage." />
-        <FormRenderer :form="form" @submit="submit" />
+    <div>
+        <TrainsHeader active="train-garages" />
+        <div class="mt-6 max-w-screen-md mx-auto">
+            <h1>Add train garage</h1>
+            <AlertError v-if="state.error" text="Unable to add the train garage." />
+            <FormRenderer :form="form" @submit="submit" />
+        </div>
     </div>
 </template>

@@ -25,7 +25,7 @@ const form = {
     }
 }
 
-const { pending } = $api.lazyFetchForm(`/train-garages/${route.params.id}`, form.fields, (newFields) => {
+const { pending, data, error } = $api.lazyFetchForm(`/train-garages/${route.params.id}`, form.fields, (newFields) => {
     form.fields = newFields
 })
 
@@ -43,12 +43,11 @@ const submit = async (data) => {
 }
 </script>
 <template>
-    <div class="max-w-screen-md mx-auto">
-        <div v-if="pending">Loading...</div>
-        <div v-else>
-            <h1>Edit train garage</h1>
+    <PageWrapper :pending="pending" :error="error" errorText="Unable to load train garage details.">
+        <TrainsGarageDetailHeader :title="data.displayName" hideActions="true" />
+        <div class="max-w-screen-md mx-auto">
             <AlertError v-if="state.error" text="Unable to update the train garage." />
             <FormRenderer :form="form" @submit="submit" />
         </div>
-    </div>
+    </PageWrapper>
 </template>

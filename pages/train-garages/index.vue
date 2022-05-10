@@ -1,42 +1,16 @@
 <script lang="ts" setup>
-import { PlusIcon } from "@heroicons/vue/outline"
-
-const { $api } = useNuxtApp()
-
-const { pending, data } = $api.lazyFetch('/train-garages')
-
+definePageMeta({
+    key: route => route.fullPath
+})
 </script>
 <template>
-    <div class="max-w-screen-lg mx-auto">
-        <div class="w-full flex justify-between items-center mb-5">
-            <h1>Train Garages</h1>
-            <div>
-                <NuxtLink
-                    class="button button-outline-default button-sm"
-                    to="/train-garages/add"
-                >
-                    <PlusIcon class="w-4 mr-1 inline-block" />Add train garage
-                </NuxtLink>
-            </div>
-        </div>
-        <div>
-            <div v-if="pending">Loading...</div>
-            <div v-else>
-                <div
-                    v-for="(item, index) in data.content"
-                    :key="index"
-                    class="py-3 px-4 w-full border-b border-gray-200 hover:bg-gray-100 flex justify-between items-center"
-                    :class="index === 0 ? 'border-t' : ''"
-                >
-                    <div>
-                        <NuxtLink
-                            :to="`/train-garages/${item.uuid}`"
-                            class="font-bold inline-block hover:underline"
-                        >{{ item.displayName }}</NuxtLink>
-                        <div class="text-gray-500">{{ item.uri }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+        <TrainsHeader active="train-garages" />
+        <Pagination apiUrl="/train-garages" clientUrl="/train-garages" errorText="Unable to load train garages"
+            v-slot="{ item }">
+            <NuxtLink :to="`/train-garages/${item.uuid}`" class="block font-medium hover:underline text-cyan-600">
+                {{ item.displayName }}
+            </NuxtLink>
+        </Pagination>
     </div>
 </template>
