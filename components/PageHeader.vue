@@ -8,7 +8,7 @@ const emitAction = (action) => {
 </script>
 <template>
     <div class="bg-gray-50 pt-20 border-b border-gray-200">
-        <div class="mx-auto" :class="wide ? 'px-6' : 'max-w-screen-lg'">
+        <div class="mx-auto px-6" :class="wide ? '' : 'max-w-screen-lg'">
             <div class="flex mb-3 justify-between items-center">
                 <slot>
                     <h1 class="pt-2">{{ title }}</h1>

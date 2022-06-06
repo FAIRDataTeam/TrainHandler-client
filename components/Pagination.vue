@@ -30,7 +30,7 @@ const getPages = (data) => {
 const getPageLink = (page) => page === 0 ? props.clientUrl : `${props.clientUrl}?page=${page + 1}`
 </script>
 <template>
-    <div class="max-w-screen-lg mx-auto">
+    <div class="max-w-screen-lg mx-auto px-6">
         <Loader class="mt-10" v-if="pending && !error" />
         <div class="mt-10 max-w-screen-lg mx-auto" v-else-if="error">
             <AlertError :text="errorText" />

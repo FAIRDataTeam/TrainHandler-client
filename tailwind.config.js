@@ -26,5 +26,5 @@ module.exports = {
     require("@tailwindcss/line-clamp"),
     require("@tailwindcss/aspect-ratio"),
   ],
-  safelist: process.env.NODE_ENV === 'development' ? [{ pattern: /.*/ }] : []
+  // safelist: process.env.NODE_ENV === 'development' ? [{ pattern: /.*/ }] : []
 };
