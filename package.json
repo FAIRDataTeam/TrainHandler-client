@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "PORT=8081 API_URL=http://localhost:8080 nuxi dev",
+    "dev": "PORT=8081 NUXT_PUBLIC_API_URL=http://localhost:8080 nuxi dev",
     "build": "nuxi build",
     "start": "node .output/server/index.mjs"
   },

@@ -1,11 +1,28 @@
 <script setup>
+definePageMeta({
+    key: route => route.fullPath
+})
+
 const route = useRoute()
-const { $api, $timeUtils } = useNuxtApp()
+const { $api, $statusUtils, $timeUtils } = useNuxtApp()
 
-const { pending: runPending, data: runData, error: runError } = $api.lazyFetch(`/runs/${route.params.id}`)
-const { pending: jobPending, data: jobData, error: jobError } = $api.lazyFetch(`/runs/${route.params.id}/jobs/${route.params.jobId}`)
+const getDuration = ({ startedAt, finishedAt }) => $timeUtils.getDuration(startedAt, finishedAt)
 
-const getDuration = (job) => $timeUtils.getDuration(job.startedAt, job.finishedAt)
+const getInfoPanelItems = (job) => {
+    return [{
+        label: 'Station',
+        value: {
+            label: job.target.title,
+            to: `/stations/${job.target.uuid}`
+        }
+    }, {
+        label: 'Status',
+        value: job.status
+    }, {
+        label: 'Duration',
+        value: getDuration(job)
+    }]
+}
 
 const getEvents = (job) => {
     let startTime = job.startedAt
@@ -16,34 +33,41 @@ const getEvents = (job) => {
         return event
     })
 }
+
+const getArtifacts = (run, job) => {
+    return job.artifacts.map((artifact) => ({
+        ...artifact,
+        jobUuid: job.uuid,
+        runUuid: run.uuid
+    }))
+}
+
+
+const runUuid = route.params.id
+const jobUuid = route.params.jobId
+const version = ref(0)
+const { pending: runPending, data: runData, error: runError } = $api.lazyFetch(`/runs/${runUuid}`)
+const { pending: jobPending, data: jobData, error: jobError, refresh: jobRefresh } = $api.lazyFetch(`/runs/${runUuid}/jobs/${jobUuid}?after=${version.value}`)
+
+
+watch(jobData, (newJobData) => {
+    version.value = newJobData.version
+    if ($statusUtils.isInProgress(newJobData.status)) {
+        requestAnimationFrame(() => {
+            jobRefresh()
+        })
+    }
+})
+
 </script>
 
 <template>
-    <RunsDetailWrapper :pending="runPending || jobPending" :error="runError || jobError" :data="runData">
-        <div class="w-full border border-gray-200 rounded-lg flex justify-start items-start">
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Station</span>
-                <NuxtLink class="link font-semibold" :to="`/stations/${jobData.target.uuid}`">{{ jobData.target.title }}
-                </NuxtLink>
-            </div>
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Status</span>
-                <span class="font-semibold text-gray-600">{{ jobData.status }}</span>
-            </div>
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Duration</span>
-                <span class="font-semibold text-gray-600">{{ getDuration(jobData) }}</span>
-            </div>
-        </div>
-        <div class="mt-10">
-            <strong class="block text-gray-500 mb-5">Events</strong>
-            <AlertInfo v-if="jobData.events.length === 0" text="There are no events for this job." />
-            <div v-for="event in getEvents(jobData)" :key="event.uuid"
-                class="bg-gray-100 rounded-lg px-6 py-3 mb-1 flex justify-between"
-            >
-                <span>{{ event.message }}</span>
-                <span class="text-sm font-semibold text-gray-500 pl-2">{{ event.duration }}</span>
-            </div>
-        </div>
+    <RunsDetailWrapper :pending="runPending || (version === 0 && jobPending)" :error="runError || jobError" :data="runData">
+        <RunsDetailInfoPanel :items="getInfoPanelItems(jobData)" />
+        <RunsDetailList v-slot="{ item }" title="Events" emptyText="There are no events." :items="getEvents(jobData)">
+            <span>{{ item.message }}</span>
+            <span class="text-sm font-semibold text-gray-500 pl-2">{{ item.duration }}</span>
+        </RunsDetailList>
+        <RunsDetailArtifactList :items="getArtifacts(runData, jobData)" />
     </RunsDetailWrapper>
 </template>

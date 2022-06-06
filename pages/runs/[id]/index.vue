@@ -1,45 +1,77 @@
 <script setup>
+import { DocumentIcon, DownloadIcon } from '@heroicons/vue/outline';
+
 const route = useRoute()
-const { $api, $timeUtils } = useNuxtApp()
+const { $api, $statusUtils, $timeUtils } = useNuxtApp()
 
-const { pending, data, error } = $api.lazyFetch(`/runs/${route.params.id}`)
+definePageMeta({
+    key: route => route.fullPath
+})
 
-const getDuration = (run) => $timeUtils.getDuration(run.startedAt, run.finishedAt)
+console.log(route.fullPath)
+
+const getDuration = ({ startedAt, finishedAt }) => $timeUtils.getDuration(startedAt, finishedAt)
+
+const getInfoPanelItems = (run) => {
+    return [{
+        label: 'Plan',
+        value: {
+            label: run.plan.displayName,
+            to: `/plans/${run.plan.uuid}`
+        }
+    }, {
+        label: 'Train',
+        value: {
+            label: run.plan.train.title,
+            to: `/trains/${run.plan.train.uuid}`
+        }
+    }, {
+        label: 'Status',
+        value: run.status
+    }, {
+        label: 'Duration',
+        value: getDuration(run)
+    }]
+}
+
+const getArtifacts = (run) => {
+    return run.jobs.reduce((acc, job) => {
+        job.artifacts.forEach((artifact) => {
+            acc.push({
+                ...artifact,
+                jobUuid: job.uuid,
+                runUuid: run.uuid
+            })
+        })
+        return acc
+    }, [])
+}
+
+
+const runUuid = route.params.id
+const version = ref(0)
+const { pending, data, error, refresh } = $api.lazyFetch(() => `/runs/${runUuid}?after=${version.value}`)
+
+watch(data, (newData) => {
+    version.value = newData.version
+    if ($statusUtils.isInProgress(newData.status)) {
+        requestAnimationFrame(() => {
+            refresh()
+        })
+    }
+})
 </script>
 
 <template>
-    <RunsDetailWrapper :pending="pending" :error="error" :data="data">
-        <div class="w-full border border-gray-200 rounded-lg flex justify-start items-start">
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Plan</span>
-                <NuxtLink class="link font-semibold" :to="`/plans/${data.plan.uuid}`">{{ data.plan.displayName }}
-                </NuxtLink>
-            </div>
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Train</span>
-                <NuxtLink class="link font-semibold" :to="`/trains/${data.plan.train.uuid}`">{{ data.plan.train.title }}
-                </NuxtLink>
-            </div>
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Status</span>
-                <span class="font-semibold text-gray-600">{{ data.status }}</span>
-            </div>
-            <div class="px-6 py-3">
-                <span class="block text-sm text-gray-500">Duration</span>
-                <span class="font-semibold text-gray-600">{{ getDuration(data) }}</span>
-            </div>
-        </div>
-        <div class="mt-10">
-            <strong class="text-gray-500 mb-2">Jobs</strong>
-            <div v-for="job in data.jobs" :key="job.uuid"
-                class="bg-gray-100 rounded-lg px-6 py-3 mb-1 flex justify-between"
-            >
-                <span class="flex justify-start items-center">
-                    <RunsStatusIcon :status="job.status" class="mr-1" />
-                    <NuxtLink :to="`/runs/${data.uuid}/jobs/${job.uuid}`">{{ job.target.title }}</NuxtLink>
-                </span>
-                <span class="text-sm font-semibold text-gray-500 pl-2">{{ getDuration(job) }}</span>
-            </div>
-        </div>
+    <RunsDetailWrapper :pending="version === 0 && pending" :error="error" :data="data">
+        <RunsDetailInfoPanel :items="getInfoPanelItems(data)" />
+        <RunsDetailList v-slot="{ item }" title="Jobs" emptyText="There are no jobs." :items="data.jobs">
+            <span class="flex justify-start items-center">
+                <RunsStatusIcon :status="item.status" class="mr-1" />
+                <NuxtLink :to="`/runs/${data.uuid}/jobs/${item.uuid}`">{{ item.target.title }}</NuxtLink>
+            </span>
+            <span class="text-sm font-semibold text-gray-500 pl-2">{{ getDuration(item) }}</span>
+        </RunsDetailList>
+        <RunsDetailArtifactList :items="getArtifacts(data)" />
     </RunsDetailWrapper>
 </template>
