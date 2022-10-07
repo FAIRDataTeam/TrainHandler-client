@@ -3,7 +3,7 @@ const route = useRoute()
 const router = useRouter()
 const { $api } = useNuxtApp()
 
-const { pending, data, error } = $api.lazyFetch(`/station-directories/${route.params.id}`)
+const { pending, data, error, refresh } = $api.lazyFetch(`/station-directories/${route.params.id}`)
 
 const state = reactive({
     deleteError: false,
@@ -30,11 +30,23 @@ const deleteCancel = () => {
 const openDeleteModal = () => {
     state.deleteModalOpen = true
 }
+
+const refreshStationDirectory = async () => {
+    try {
+        await $api.put(`/station-directories/${route.params.id}/stations?refresh`)
+        refresh()
+    } catch (error) {
+        console.error(error)
+    }
+}
 </script>
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load station directory details.">
-        <StationsDirectoryDetailHeader :title="data.displayName" @delete="openDeleteModal" />
+        <StationsDirectoryDetailHeader :title="data.displayName" @delete="openDeleteModal" @refresh="refreshStationDirectory" />
         <DetailList>
+            <DetailListRow title="Status">
+                <SyncStatusBadge :status="data.status" />
+            </DetailListRow>
             <DetailListRow title="URI">
                 <a class="link" :href="data.uri" target="_blank">{{ data.uri }}</a>
             </DetailListRow>

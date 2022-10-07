@@ -13,10 +13,7 @@ const { pending, data, error } = $api.lazyFetch(`/stations/${route.params.id}`)
                 {{ data.description }}
             </DetailListRow>
             <DetailListRow title="Status">
-                <span
-                    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-green-700 rounded">
-                    {{ data.status }}
-                </span>
+                <SyncStatusBadge :status="data.status" />
             </DetailListRow>
             <DetailListRow title="URI">
                 <a class="link" :href="data.uri" target="_blank">{{ data.uri }}</a>

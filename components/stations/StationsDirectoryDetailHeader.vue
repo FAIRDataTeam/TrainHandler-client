@@ -2,9 +2,12 @@
 const route = useRoute()
 const stationDirectoryUuid = route.params.id
 const props = defineProps(['title', 'hideActions'])
-const emit = defineEmits(['delete'])
+const emit = defineEmits(['delete', 'refresh'])
 
 const actions = props.hideActions ? [] : [{
+    label: 'Refresh',
+    emit: 'refresh'
+}, {
     label: 'Edit',
     to: `/station-directories/${stationDirectoryUuid}/edit`,
 }, {
@@ -16,6 +19,10 @@ const actions = props.hideActions ? [] : [{
 const onAction = (action) => {
     if (action === 'delete') {
         emit('delete')
+    }
+
+    if (action === 'refresh') {
+        emit('refresh')
     }
 }
 </script>

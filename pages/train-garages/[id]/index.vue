@@ -3,7 +3,7 @@ const route = useRoute()
 const router = useRouter()
 const { $api } = useNuxtApp()
 
-const { pending, data, error } = $api.lazyFetch(`/train-garages/${route.params.id}`)
+const { pending, data, error, refresh } = $api.lazyFetch(`/train-garages/${route.params.id}`)
 
 const state = reactive({
     deleteError: false,
@@ -30,11 +30,23 @@ const deleteCancel = () => {
 const openDeleteModal = () => {
     state.deleteModalOpen = true
 }
+
+const refreshGarage = async () => {
+    try {
+        await $api.put(`/train-garages/${route.params.id}/trains?refresh`)
+        refresh()
+    } catch (error) {
+        console.error(error)
+    }
+}
 </script>
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load train garage details.">
-        <TrainsGarageDetailHeader :title="data.displayName" @delete="openDeleteModal" />
+        <TrainsGarageDetailHeader :title="data.displayName" @delete="openDeleteModal" @refresh="refreshGarage" />
         <DetailList>
+            <DetailListRow title="Status">
+                <SyncStatusBadge :status="data.status" />
+            </DetailListRow>
             <DetailListRow title="URI">
                 <a class="link" :href="data.uri" target="_blank">{{ data.uri }}</a>
             </DetailListRow>
