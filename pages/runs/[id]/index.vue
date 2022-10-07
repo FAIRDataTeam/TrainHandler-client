@@ -1,6 +1,4 @@
 <script setup>
-import { DocumentIcon, DownloadIcon } from '@heroicons/vue/outline';
-
 const route = useRoute()
 const { $api, $statusUtils, $timeUtils } = useNuxtApp()
 

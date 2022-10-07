@@ -18,8 +18,8 @@ export default defineNuxtConfig({
         optimizeDeps: {
             include: [
                 '@headlessui/vue',
-                '@heroicons/vue/solid',
-                '@heroicons/vue/outline',
+                '@heroicons/vue/24/solid',
+                '@heroicons/vue/24/outline',
                 'vue',
             ]
         }

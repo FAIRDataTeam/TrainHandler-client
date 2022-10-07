@@ -1,5 +1,5 @@
 <script setup>
-import { CheckCircleIcon, ClockIcon, ExclamationCircleIcon, HomeIcon, MinusCircleIcon, XCircleIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon, ClockIcon, ExclamationCircleIcon, HomeIcon, MinusCircleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps(['status', 'large'])
 </script>

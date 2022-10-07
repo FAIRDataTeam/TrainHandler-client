@@ -1,6 +1,6 @@
 <script setup>
 import _ from 'lodash'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid';
 
 const route = useRoute()
 const { $api } = useNuxtApp()

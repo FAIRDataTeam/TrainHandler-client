@@ -1,5 +1,5 @@
 <script setup>
-import { DocumentIcon, DownloadIcon } from '@heroicons/vue/outline'
+import { ArrowDownTrayIcon, DocumentIcon } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
 const { $api } = useNuxtApp()
@@ -22,7 +22,7 @@ const downloadArtifact = async (artifact) => {
         <span class="flex justify-end">
             <ByteSize class="mr-3 text-gray-500 text-sm" :size="item.bytesize" />
             <a class="link" @click="downloadArtifact(item)">
-                <DownloadIcon class="w-5 h-5" />
+                <ArrowDownTrayIcon class="w-5 h-5" />
             </a>
         </span>
     </RunsDetailList>
