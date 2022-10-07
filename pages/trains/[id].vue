@@ -1,13 +1,51 @@
 <script setup>
 const route = useRoute()
+const router = useRouter()
 const { $api } = useNuxtApp()
 
-const { pending, data, error } = $api.lazyFetch(`/trains/${route.params.id}`)
+const { pending, data, error, refresh } = $api.lazyFetch(`/trains/${route.params.id}`)
+
+const state = reactive({
+    deleteError: false,
+    deleteModalOpen: false,
+})
+
+const deleteTrain = async () => {
+    try {
+        await $api.delete(`/trains/${route.params.id}`)
+        await router.push('/')
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const deleteConfirm = () => {
+    deleteTrain()
+}
+
+const deleteCancel = () => {
+    state.deleteModalOpen = false
+}
+
+const openDeleteModal = () => {
+    state.deleteModalOpen = true
+}
+
+const restore = async () => {
+    try {
+        await $api.put(`/trains/${route.params.id}`, {
+            softDeleted: false
+        })
+        refresh()
+    } catch (error) {
+        console.error(error)
+    }
+}
 </script>
 
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load train details.">
-        <TrainsDetailHeader :title="data.title" />
+        <TrainsDetailHeader :title="data.title" :softDeleted="data.softDeleted" @delete="openDeleteModal" @restore="restore" />
         <DetailList>
             <DetailListRow title="Status">
                 <SyncStatusBadge :status="data.status" />
@@ -30,5 +68,9 @@ const { pending, data, error } = $api.lazyFetch(`/trains/${route.params.id}`)
                 </ul>
             </DetailListRow>
         </DetailList>
+        <ModalConfirm :visible="state.deleteModalOpen" :dangerous="true" title="Delete train"
+            confirm-action="Delete" cancel-action="Cancel" @confirm="deleteConfirm" @cancel="deleteCancel">
+            Are you sure you want to delete <strong>{{ data.title }}</strong>?
+        </ModalConfirm>
     </PageWrapper>
 </template>
