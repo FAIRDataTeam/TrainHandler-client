@@ -1,5 +1,3 @@
-import { defineNuxtConfig } from 'nuxt'
-
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
     css: ['@/assets/main.scss'],
@@ -13,6 +11,9 @@ export default defineNuxtConfig({
             },
         },
     },
+    modules: [
+        '@pinia/nuxt',
+    ],
     ssr: false,
     vite: {
         optimizeDeps: {
@@ -27,6 +28,10 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiUrl: '',
+            keycloakDisabled: '',
+            keycloakUrl: '',
+            keycloakRealm: '',
+            keycloakClientId: '',
         }
     }
 })

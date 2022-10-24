@@ -8,7 +8,33 @@
 
 ## Development
 
-*To be done*
+Install dependencies using:
+
+```
+$ npm install
+```
+
+Create `.env` file. For local development, you need to set the port where the client is running, API url of the Train Handler backend and some extra Keycloak settings:
+
+```
+PORT=8081
+NUXT_PUBLIC_API_URL=http://localhost:8080
+NUXT_PUBLIC_KEYCLOAK_URL=http://localhost:8000
+NUXT_PUBLIC_KEYCLOAK_REALM=myrealm
+NUXT_PUBLIC_KEYCLOAK_CLIENT_ID=myclient
+```
+
+Run in dev mode:
+
+```
+$ npm run dev
+```
+
+You can disable Keycloak for local development by setting in the `.env` file:
+
+```
+NUXT_PUBLIC_KEYCLOAK_DISABLED=true
+```
 
 ## Contributing
 
