@@ -42,7 +42,12 @@ const refreshGarage = async () => {
 </script>
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load train garage details.">
-        <TrainsGarageDetailHeader :title="data.displayName" @delete="openDeleteModal" @refresh="refreshGarage" />
+        <TrainsGarageDetailHeader 
+            :title="data.displayName" 
+            :deletable="data.deletable"
+            @delete="openDeleteModal" 
+            @refresh="refreshGarage"
+        />
         <DetailList>
             <DetailListRow title="Status">
                 <SyncStatusBadge :status="data.status" />

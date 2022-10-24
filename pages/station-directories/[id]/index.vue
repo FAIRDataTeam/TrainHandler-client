@@ -42,7 +42,12 @@ const refreshStationDirectory = async () => {
 </script>
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load station directory details.">
-        <StationsDirectoryDetailHeader :title="data.displayName" @delete="openDeleteModal" @refresh="refreshStationDirectory" />
+        <StationsDirectoryDetailHeader 
+            :title="data.displayName"
+            :deletable="data.deletable" 
+            @delete="openDeleteModal"
+            @refresh="refreshStationDirectory"
+        />
         <DetailList>
             <DetailListRow title="Status">
                 <SyncStatusBadge :status="data.status" />
