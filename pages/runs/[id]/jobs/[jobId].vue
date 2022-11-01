@@ -47,7 +47,7 @@ const runUuid = route.params.id
 const jobUuid = route.params.jobId
 const version = ref(0)
 const { pending: runPending, data: runData, error: runError } = $api.lazyFetch(`/runs/${runUuid}`)
-const { pending: jobPending, data: jobData, error: jobError, refresh: jobRefresh } = $api.lazyFetch(`/runs/${runUuid}/jobs/${jobUuid}?after=${version.value}`)
+const { pending: jobPending, data: jobData, error: jobError, refresh: jobRefresh } = $api.lazyFetch(() => `/runs/${runUuid}/jobs/${jobUuid}?after=${version.value}`)
 
 
 watch(jobData, (newJobData) => {
