@@ -2,6 +2,10 @@
 import Keycloak from 'keycloak-js'
 import { useKeycloak } from '@/stores/keycloak'
 
+useHead({
+    title: 'Train Handler'
+})
+
 const config = useRuntimeConfig()
 const store = useKeycloak()
 
