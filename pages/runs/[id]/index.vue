@@ -6,8 +6,6 @@ definePageMeta({
     key: route => route.fullPath
 })
 
-console.log(route.fullPath)
-
 const getDuration = ({ startedAt, finishedAt }) => $timeUtils.getDuration(startedAt, finishedAt)
 
 const getInfoPanelItems = (run) => {
