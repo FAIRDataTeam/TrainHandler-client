@@ -51,18 +51,18 @@ const { pending: runPending, data: runData, error: runError, refresh: runRefresh
 const { pending: jobPending, data: jobData, error: jobError, refresh: jobRefresh } = $api.lazyFetch(() => `/runs/${runUuid}/jobs/${jobUuid}?after=${jobVersion.value}`)
 
 watch(runData, (newRunData) => {
-    runVersion.value = newRunData.version
     if ($statusUtils.isInProgress(newRunData.status)) {
         requestAnimationFrame(() => {
+            runVersion.value = newRunData.version
             runRefresh()
         })
     }
 })
 
 watch(jobData, (newJobData) => {
-    jobVersion.value = newJobData.version
     if ($statusUtils.isInProgress(newJobData.status)) {
         requestAnimationFrame(() => {
+            jobVersion.value = newJobData.version
             jobRefresh()
         })
     }

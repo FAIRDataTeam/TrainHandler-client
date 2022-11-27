@@ -49,9 +49,9 @@ const version = ref(0)
 const { pending, data, error, refresh } = $api.lazyFetch(() => `/runs/${runUuid}?after=${version.value}`)
 
 watch(data, (newData) => {
-    version.value = newData.version
     if ($statusUtils.isInProgress(newData.status)) {
         requestAnimationFrame(() => {
+            version.value = newData.version
             refresh()
         })
     }
