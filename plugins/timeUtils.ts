@@ -12,6 +12,10 @@ export default defineNuxtPlugin(nuxtApp => {
                         const startedAt = moment(start)
                         const finishedAt = moment(finish)
                         const duration = moment.duration(finishedAt.diff(startedAt))
+
+                        if (duration.asSeconds() < 1) {
+                            return '< 1s'
+                        }
                         return duration.format('h[h] mm[m] ss[s]')
                     }
                     return '-'
