@@ -1,14 +1,10 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
     css: ['@/assets/main.scss'],
-    build: {
-        postcss: {
-            postcssOptions: {
-                plugins: {
-                    tailwindcss: {},
-                    autoprefixer: {},
-                },
-            },
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
         },
     },
     modules: [
