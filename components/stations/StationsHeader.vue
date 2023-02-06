@@ -12,6 +12,9 @@ const links = [{
 }]
 
 const actions = [{
+    label: 'Add station',
+    to: '/stations/add'
+}, {
     label: 'Add station directory',
     to: '/station-directories/add'
 }]

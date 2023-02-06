@@ -47,6 +47,9 @@ const restore = async () => {
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load train details.">
         <TrainsDetailHeader :title="data.title" :softDeleted="data.softDeleted" @delete="openDeleteModal" @restore="restore" />
         <DetailList>
+            <DetailListRow title="Description">
+                <p>{{ data.description }}</p>
+            </DetailListRow>
             <DetailListRow title="Status">
                 <SyncStatusBadge :status="data.status" />
             </DetailListRow>
@@ -55,7 +58,7 @@ const restore = async () => {
                     {{ data.uri }}
                 </a>
             </DetailListRow>
-            <DetailListRow title="Train Garage">
+            <DetailListRow title="Train Garage" v-if="data.garage">
                 <NuxtLink class="link" :to="`/train-garages/${data.garage.uuid}`">
                     {{ data.garage.displayName }}
                 </NuxtLink>
@@ -64,6 +67,16 @@ const restore = async () => {
                 <ul class="list-disc pl-4">
                     <li v-for="(keyword, index) in data.keywords" :key="index">
                         {{ keyword }}
+                    </li>
+                </ul>
+            </DetailListRow>
+            <DetailListRow title="Metadata">
+                <p>{{ data.metadata }}</p>
+            </DetailListRow>
+            <DetailListRow title="Train Types">
+                <ul class="list-disc pl-4">
+                    <li v-for="t in data.types" :key="t.uuid">
+                        {{ t.title }}
                     </li>
                 </ul>
             </DetailListRow>

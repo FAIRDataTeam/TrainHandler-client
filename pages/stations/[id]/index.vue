@@ -56,7 +56,7 @@ const restore = async () => {
             <DetailListRow title="URI">
                 <a class="link" :href="data.uri" target="_blank">{{ data.uri }}</a>
             </DetailListRow>
-            <DetailListRow title="Station Directory">
+            <DetailListRow title="Station Directory" v-if="data.dirc">
                 <NuxtLink class="link" :to="`/station-directories/${data.directory.uuid}`">
                     {{ data.directory.displayName }}
                 </NuxtLink>
@@ -65,6 +65,22 @@ const restore = async () => {
                 <ul class="list-disc pl-4">
                     <li v-for="(keyword, index) in data.keywords" :key="index">
                         {{ keyword }}
+                    </li>
+                </ul>
+            </DetailListRow>
+            <DetailListRow title="Metadata">
+                <p>{{ data.metadata }}</p>
+            </DetailListRow>
+            <DetailListRow title="Endpoint URL">
+                <a class="link" :href="data.endpointUrl" target="_blank">{{ data.endpointUrl }}</a>
+            </DetailListRow>
+            <DetailListRow title="Endpoint Description">
+                <p>{{ data.endpointDescription }}</p>
+            </DetailListRow>
+            <DetailListRow title="Train Types">
+                <ul class="list-disc pl-4">
+                    <li v-for="t in data.types" :key="t.uuid">
+                        {{ t.title }}
                     </li>
                 </ul>
             </DetailListRow>

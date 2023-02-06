@@ -1,4 +1,5 @@
 <script setup>
+import _ from 'lodash'
 import { reactive } from 'vue';
 import useVuelidate from '@vuelidate/core'
 
@@ -38,7 +39,12 @@ const getType = (field) => field.type === 'textarea' ? null : 'text'
 <template>
     <form class="mt-5" @submit.prevent="submit">
         <div class="mb-5" v-for="field in form.fields" :key="field.name">
-            <label class="block mb-1 text-sm font-medium">{{ field.label }}</label>
+            <label 
+                class="block mb-1 text-sm font-medium"
+                v-if="field.type !== 'checkbox'"
+            >
+                {{ field.label }}
+            </label>
             <textarea
                 v-if="field.type === 'textarea'"
                 :type="getType(field)"
@@ -46,6 +52,7 @@ const getType = (field) => field.type === 'textarea' ? null : 'text'
                 @blur="v$[field.name].$touch"
                 class="border border-gray-300 text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 px-4"
                 :class="{'border-red-600': v$[field.name].$error}"
+                :rows="Math.max(2, _.isEmpty(state[field.name]) ? 2 : state[field.name].split('\n').length)"
             />
             <select
                 v-else-if="field.type === 'select'"
@@ -72,7 +79,7 @@ const getType = (field) => field.type === 'textarea' ? null : 'text'
                     <input 
                         type="checkbox"
                         v-model="state[field.name][option.key]"
-                        class="border border-gray-300 rounded-lg focus:ring-cyan-600 focus:border-cyan-600 accent-cyan-600 mr-1"
+                        class="border border-gray-300 rounded-sm focus:ring-cyan-600 focus:border-cyan-600 accent-cyan-600 mr-1"
                     > 
                     {{ option.value }}
                 </label>
@@ -83,6 +90,18 @@ const getType = (field) => field.type === 'textarea' ? null : 'text'
                 >
                     {{ field.noOptions }}
                 </div>
+            </div>
+            <div
+                v-else-if="field.type === 'checkbox'"
+            >
+                <label class="font-medium text-sm flex items-center">
+                    <input 
+                        type="checkbox"
+                        v-model="state[field.name]"
+                        class="border border-gray-300 rounded-sm focus:ring-cyan-600 focus:border-cyan-600 accent-cyan-600 mr-1"
+                    >
+                    {{ field.label }}
+                </label>
             </div>
             <input
                 v-else

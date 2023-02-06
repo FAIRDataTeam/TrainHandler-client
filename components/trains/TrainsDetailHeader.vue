@@ -1,5 +1,7 @@
 <script setup>
-const props = defineProps(['title', 'softDeleted'])
+const route = useRoute()
+const trainUuid = route.params.id
+const props = defineProps(['title', 'hideActions', 'softDeleted'])
 const emit = defineEmits(['delete', 'restore'])
 
 const actions = []
@@ -10,6 +12,10 @@ if (props.softDeleted) {
         emit: 'restore'
     })
 } else {
+    actions.push({
+        label: 'Edit',
+        to: `/trains/${trainUuid}/edit`
+    })
     actions.push({
         label: 'Delete',
         dangerous: true,

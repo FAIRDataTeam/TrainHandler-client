@@ -1,4 +1,6 @@
 <script setup>
+const route = useRoute()
+const stationUuid = route.params.id
 const props = defineProps(['title', 'softDeleted'])
 const emit = defineEmits(['delete', 'restore'])
 
@@ -10,6 +12,10 @@ if (props.softDeleted) {
         emit: 'restore'
     })
 } else {
+    actions.push({
+        label: 'Edit',
+        to: `/stations/${stationUuid}/edit`
+    })
     actions.push({
         label: 'Delete',
         dangerous: true,
