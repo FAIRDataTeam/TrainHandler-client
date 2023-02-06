@@ -30,8 +30,13 @@ const form = reactive({
         type: 'select',
         options: [],
     }, {
-        name: 'stationUuids',
-        label: 'Stations',
+        name: 'publishArtifacts',
+        label: 'Publish Artifacts',
+        rules: {},
+        type: 'checkbox',
+    }, {
+        name: 'targets',
+        label: 'Targets',
         rules: {},
         type: 'multichoice',
         options: [],
@@ -60,7 +65,7 @@ const updated = async (data) => {
         state.stationsFor = data.trainUuid
 
         form.fields.map((field) => {
-            if (field.name === 'stationUuids') {
+            if (field.name === 'targets') {
                 field.options = _.sortBy(res.map((station) => ({
                     key: station.uuid,
                     value: station.title,
@@ -74,9 +79,13 @@ const updated = async (data) => {
 const submit = async (data) => {
     try {
         const sendData = { ...data }
-        sendData.stationUuids = Object.entries(sendData.stationUuids)
+        sendData.publishArtifacts = !!data.publishArtifacts
+        sendData.targets = Object.entries(data.targets)
             .filter(([key, value]) => value)
-            .map(([key, value]) => key)
+            .map(([key, value]) => ({
+                stationUuid: key,
+                publishArtifacts: sendData.publishArtifacts,
+            }))
 
         const res = await $api.post('/plans', sendData)
         await router.push(`/plans/${res.uuid}`)
