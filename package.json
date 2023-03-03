@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "source .env && nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.13",
+    "nuxt": "3.2.3",
+    "postcss": "8.4.18",
+    "sass": "1.58.0",
+    "sass-loader": "13.1.0",
+    "tailwindcss": "3.2.6"
+  },
+  "dependencies": {
+    "@headlessui/vue": "1.7.9",
+    "@heroicons/vue": "2.0.16",
+    "@pinia/nuxt": "^0.4.7",
+    "@tailwindcss/aspect-ratio": "0.4.2",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/line-clamp": "0.4.2",
+    "@tailwindcss/typography": "0.5.9",
+    "@vuelidate/core": "^2.0.0",
+    "@vuelidate/validators": "^2.0.0",
+    "keycloak-js": "^21.0.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "moment-duration-format": "^2.3.2",
+    "pinia": "^2.0.32"
+  }
+}

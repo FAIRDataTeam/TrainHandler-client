@@ -1,0 +1,11 @@
+.github
+.idea
+LICENSE
+CHANGELOG.md
+CONTRIBUTING.md
+README.md
+SECURITY.md
+.nuxt
+.output
+node_modules
+nb-configuration.xml
