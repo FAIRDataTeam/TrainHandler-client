@@ -32,6 +32,7 @@ const form = reactive({
         name: 'metadata',
         label: 'Metadata',
         rules: {},
+        type: 'textarea',
     }, {
         name: 'trainTypeUuids',
         label: 'Train Types',

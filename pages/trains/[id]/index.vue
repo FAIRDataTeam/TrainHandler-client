@@ -7,7 +7,7 @@ const { pending, data, error, refresh } = $api.lazyFetch(`/trains/${route.params
 
 const state = reactive({
     deleteError: false,
-    deleteModalOpen: false,
+    deleteModalOpen: false
 })
 
 const deleteTrain = async () => {
@@ -42,10 +42,10 @@ const restore = async () => {
     }
 }
 </script>
-
 <template>
     <PageWrapper :pending="pending" :error="error" errorText="Unable to load train details.">
-        <TrainsDetailHeader :title="data.title" :softDeleted="data.softDeleted" @delete="openDeleteModal" @restore="restore" />
+        <TrainsDetailHeader :title="data.title" :softDeleted="data.softDeleted" @delete="openDeleteModal"
+            @restore="restore" />
         <DetailList>
             <DetailListRow title="Description">
                 <p>{{ data.description }}</p>
@@ -70,9 +70,6 @@ const restore = async () => {
                     </li>
                 </ul>
             </DetailListRow>
-            <DetailListRow title="Metadata">
-                <p>{{ data.metadata }}</p>
-            </DetailListRow>
             <DetailListRow title="Train Types">
                 <ul class="list-disc pl-4">
                     <li v-for="t in data.types" :key="t.uuid">
@@ -80,9 +77,12 @@ const restore = async () => {
                     </li>
                 </ul>
             </DetailListRow>
+            <DetailListRow title="Metadata">
+                <MetadataBlock :metadata="data.metadata" />
+            </DetailListRow>
         </DetailList>
-        <ModalConfirm :visible="state.deleteModalOpen" :dangerous="true" title="Delete train"
-            confirm-action="Delete" cancel-action="Cancel" @confirm="deleteConfirm" @cancel="deleteCancel">
+        <ModalConfirm :visible="state.deleteModalOpen" :dangerous="true" title="Delete train" confirm-action="Delete"
+            cancel-action="Cancel" @confirm="deleteConfirm" @cancel="deleteCancel">
             Are you sure you want to delete <strong>{{ data.title }}</strong>?
         </ModalConfirm>
     </PageWrapper>

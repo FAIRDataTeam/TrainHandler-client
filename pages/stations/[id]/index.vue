@@ -68,9 +68,6 @@ const restore = async () => {
                     </li>
                 </ul>
             </DetailListRow>
-            <DetailListRow title="Metadata">
-                <p>{{ data.metadata }}</p>
-            </DetailListRow>
             <DetailListRow title="Endpoint URL">
                 <a class="link" :href="data.endpointUrl" target="_blank">{{ data.endpointUrl }}</a>
             </DetailListRow>
@@ -83,6 +80,9 @@ const restore = async () => {
                         {{ t.title }}
                     </li>
                 </ul>
+            </DetailListRow>
+            <DetailListRow title="Metadata">
+                <MetadataBlock :metadata="data.metadata" />
             </DetailListRow>
         </DetailList>
         <ModalConfirm :visible="state.deleteModalOpen" :dangerous="true" title="Delete station"
