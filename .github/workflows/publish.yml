@@ -1,6 +1,6 @@
 name: Publish to Docker Hub
 
-# Github environment variables and secrets required:
+# The following variables and secrets are required in the Github repo:
 # - vars.DOCKER_HUB_NAMESPACE (e.g. fairdata)
 # - vars.DOCKER_IMAGE_NAME (e.g. trainhandler-client)
 # - vars.DOCKER_HUB_USERNAME
