@@ -1,0 +1,29 @@
+name: Publish to Docker Hub
+
+# The following variables and secrets are required in the Github repo:
+# - vars.DOCKER_HUB_NAMESPACE (e.g. fairdata)
+# - vars.DOCKER_IMAGE_NAME (e.g. trainhandler-client)
+# - vars.DOCKER_HUB_USERNAME
+# - secrets.DOCKER_HUB_PASSWORD
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+  release:
+    types:
+      - created
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    uses: FAIRDataTeam/github-workflows/.github/workflows/docker-publish.yml@v2
+    secrets: inherit
+    with:
+      file: './Dockerfile'
+      platforms: linux/amd64,linux/arm64
+      push: ${{ github.event_name == 'push' || github.event_name == 'release' }}
