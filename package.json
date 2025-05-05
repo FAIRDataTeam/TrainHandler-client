@@ -15,7 +15,7 @@
     "tailwindcss": "3.2.6"
   },
   "dependencies": {
-    "@headlessui/vue": "1.7.9",
+    "@headlessui/vue": "1.7.13",
     "@heroicons/vue": "2.0.16",
     "@pinia/nuxt": "^0.4.7",
     "@tailwindcss/aspect-ratio": "0.4.2",
