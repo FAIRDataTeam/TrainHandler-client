@@ -2,6 +2,32 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+// The masthead is fixed, so pages start below it. The banner is 2880x220
+// (13.091:1); deriving its height from the viewport means the artwork is only
+// ever scaled DOWN, which is what keeps the track crisp. The cap stops it
+// dominating a wide monitor, and cropping then removes sky rather than track.
+:root {
+    --bar-h: 60px;
+    --band-h: clamp(64px, calc(100vw / 13.091), 128px);
+    --masthead-h: calc(var(--bar-h) + var(--band-h));
+}
+
+@media (max-width: 640px) {
+    :root {
+        // Header.vue hides the band at this width: it would be 49px tall and
+        // illegible, and it costs a phone a third of the fold.
+        --band-h: 0px;
+    }
+}
+
+.masthead-clear {
+    padding-top: var(--masthead-h);
+}
+
+.masthead-clear-lg {
+    padding-top: calc(var(--masthead-h) + 3rem);
+}
+
 h1 {
     @apply text-xl;
     @apply font-medium;
